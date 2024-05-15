@@ -1,0 +1,6 @@
+@King.Tickets.API_HostAddress = http://localhost:5234
+
+GET {{King.Tickets.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
