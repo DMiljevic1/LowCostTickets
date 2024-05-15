@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.API", "King.Tickets.API\King.Tickets.API.csproj", "{89954123-4BE1-4A9F-A723-5DFF27BD4455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Tickets.API", "King.Tickets.API\King.Tickets.API.csproj", "{89954123-4BE1-4A9F-A723-5DFF27BD4455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.Domain", "King.Tickets.Domain\King.Tickets.Domain.csproj", "{1F0D866A-340F-415D-85C9-DF94CBF102D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.Application", "King.Tickets.Application\King.Tickets.Application.csproj", "{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.Infrastructure", "King.Tickets.Infrastructure\King.Tickets.Infrastructure.csproj", "{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{89954123-4BE1-4A9F-A723-5DFF27BD4455}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89954123-4BE1-4A9F-A723-5DFF27BD4455}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89954123-4BE1-4A9F-A723-5DFF27BD4455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F0D866A-340F-415D-85C9-DF94CBF102D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F0D866A-340F-415D-85C9-DF94CBF102D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F0D866A-340F-415D-85C9-DF94CBF102D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F0D866A-340F-415D-85C9-DF94CBF102D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
