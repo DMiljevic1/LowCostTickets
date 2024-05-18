@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  king.tickets.api:
+    image: ${DOCKER_REGISTRY-}kingticketsapi
+    environment:
+      - ConnectionStrings__DefaultDatabase=Server=king.tickets.db;Database=TicketDatabase;User=sa;Password=passwordF4K1ng.1;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: King.Tickets.API/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    networks:
+      - mynetwork
+    depends_on:
+      - king.tickets.db
+  king.tickets.db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: king.tickets.db
+    hostname: king.tickets.db
+    environment:
+      ACCEPT_EULA: Y
+      USER: sa
+      SA_PASSWORD: passwordF4K1ng.1
+    ports:
+        - 1434:1433
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - mynetwork
+
+volumes:
+  mssql_data:
+networks:
+  mynetwork:
+    driver: bridge
