@@ -5,11 +5,13 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Tickets.API", "King.Tickets.API\King.Tickets.API.csproj", "{89954123-4BE1-4A9F-A723-5DFF27BD4455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.Domain", "King.Tickets.Domain\King.Tickets.Domain.csproj", "{1F0D866A-340F-415D-85C9-DF94CBF102D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Tickets.Domain", "King.Tickets.Domain\King.Tickets.Domain.csproj", "{1F0D866A-340F-415D-85C9-DF94CBF102D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.Application", "King.Tickets.Application\King.Tickets.Application.csproj", "{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Tickets.Application", "King.Tickets.Application\King.Tickets.Application.csproj", "{F6598195-B5F2-4B8E-B4E8-53BC8E74A1EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Tickets.Infrastructure", "King.Tickets.Infrastructure\King.Tickets.Infrastructure.csproj", "{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Tickets.Infrastructure", "King.Tickets.Infrastructure\King.Tickets.Infrastructure.csproj", "{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FF45E8CB-4327-4B47-AA38-5304E77E92F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A51DC8F9-BB5D-46E0-8661-3361EFA32F52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF45E8CB-4327-4B47-AA38-5304E77E92F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF45E8CB-4327-4B47-AA38-5304E77E92F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF45E8CB-4327-4B47-AA38-5304E77E92F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF45E8CB-4327-4B47-AA38-5304E77E92F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
