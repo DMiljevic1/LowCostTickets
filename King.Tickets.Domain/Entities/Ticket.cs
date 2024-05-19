@@ -1,4 +1,5 @@
-﻿using System;
+﻿using King.Tickets.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace King.Tickets.Domain.Entities
         public string DepartureAirport { get; set; }
         public DateTime ArrivalDepartureDate { get; set; }
         public int NumberOfPassengers { get; set; }
+        public Currency Currency { get; set; }
         public double TotalPrice { get; set; }
     }
 }
