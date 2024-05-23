@@ -3,7 +3,7 @@
 public class Dictionaries
 {
 	public Dictionary<string, Location> Locations { get; set; }
-	public Dictionary<string, string> Aircraft { get; set; }
-	public Dictionary<string, string> Currencies { get; set; }
-	public Dictionary<string, string> Carriers { get; set; }
+	public Dictionary<string, Aircraft> Aircraft { get; set; }
+	public Dictionary<string, Currency> Currencies { get; set; }
+	public Dictionary<string, Carrier> Carriers { get; set; }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace King.Tickets.Infrastructure.Migrations
 {
     [DbContext(typeof(TicketDbContext))]
-    [Migration("20240518113546_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240520174512_ChangedTableNameToLowCostTicketsAndAddedCurrencyColumn")]
+    partial class ChangedTableNameToLowCostTicketsAndAddedCurrencyColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,9 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
+
                     b.Property<string>("DepartureAirport")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -52,7 +55,7 @@ namespace King.Tickets.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("LowCostTickets");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,5 +2,6 @@
 
 public class IncludedCheckedBags
 {
-    public int Quantity { get; set; }
+    public int Weight { get; set; }
+    public string WeightUnit { get; set; }
 }

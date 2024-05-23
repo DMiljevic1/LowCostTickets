@@ -1,6 +1,6 @@
 ﻿namespace King.Tickets.Domain.Integrations.AmadeusApi;
 
-public class Root
+public class AmadeusApiResponse
 {
 	public Meta Meta { get; set; }
 	public List<FlightOffer> Data { get; set; }
