@@ -102,7 +102,7 @@ public class AmadeusApiService : IAmadeusApiService
 			{
 				foreach (var segment in iternary.Segments)
 				{
-					var lowCostTicket = GenerateLowCostTicket(flightOffer, iternary, segment, ticketFilterDto);
+					var lowCostTicket = GenerateLowCostTicket(flightOffer, segment, ticketFilterDto);
 					lowCostTickets.Add(lowCostTicket);
 				}
 			}
@@ -111,16 +111,17 @@ public class AmadeusApiService : IAmadeusApiService
 		return lowCostTickets;
 	}
 
-	private LowCostTicketDto GenerateLowCostTicket(FlightOffer flightOffer, Itinerary itinerary, Segment segment, TicketFilterDto ticketFilter)
+	private LowCostTicketDto GenerateLowCostTicket(FlightOffer flightOffer, Segment segment, TicketFilterDto ticketFilter)
 	{
 		var lowCostTicket = new LowCostTicketDto();
 		lowCostTicket.ArrivalAirport = segment.Arrival.IataCode;
 		lowCostTicket.DepartureAirport = segment.Departure.IataCode;
 		lowCostTicket.NumberOfStops = segment.NumberOfStops;
 		lowCostTicket.Currency = flightOffer.Price.Currency;
-		lowCostTicket.TotalPrice = flightOffer.Price.Total;
+		lowCostTicket.TotalPrice = flightOffer.Price.GrandTotal;
 		lowCostTicket.DepartureDate = ticketFilter.DepartureDate;
 		lowCostTicket.ReturnDate = ticketFilter.ReturnDate;
+		lowCostTicket.NumberOfPassengers = ticketFilter.NumberOfPassengers;
 
 		return lowCostTicket;
 	}
