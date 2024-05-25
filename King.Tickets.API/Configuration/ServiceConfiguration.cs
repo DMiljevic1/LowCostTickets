@@ -28,6 +28,7 @@ public static class ServiceConfiguration
         services.AddMemoryCache();
         services.AddScoped<HttpClient>();
         services.AddScoped<IAmadeusApiService, AmadeusApiService>();
+        services.AddScoped<IAmadeusApiAuthorizationService, AmadeusApiAuthorizantionService>();
     }
     private static void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
     {

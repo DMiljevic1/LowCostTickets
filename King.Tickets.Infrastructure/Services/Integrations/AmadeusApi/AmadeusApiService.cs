@@ -15,18 +15,17 @@ public class AmadeusApiService : IAmadeusApiService
 {
 	private readonly HttpClient _httpClient;
 	private readonly AmadeusApiSetting _amadeusApiSetting;
-	private readonly IMemoryCache _memoryCache;
-	private const string AccessToken = "Access_Token";
-	public AmadeusApiService(HttpClient httpClient, IOptions<AmadeusApiSetting> amadeusApiSettings, IMemoryCache memoryCache)
+	private readonly AmadeusApiAuthorizantionService _amadeusApiAuthorizationService;
+	public AmadeusApiService(HttpClient httpClient, IOptions<AmadeusApiSetting> amadeusApiSettings, AmadeusApiAuthorizantionService amadeusApiAuthorizationService)
 	{
 		_httpClient = httpClient;
 		_amadeusApiSetting = amadeusApiSettings.Value;
-		_memoryCache = memoryCache;
+		_amadeusApiAuthorizationService = amadeusApiAuthorizationService;
 	}
 	public async Task<List<LowCostTicketDto>> GetLowCostTickets(TicketFilterDto ticketFilterDto, CancellationToken cancellationToken)
 	{
 		var lowCostTickets = new List<LowCostTicketDto>();
-		_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", await GetAccessToken());
+		_httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", await _amadeusApiAuthorizationService.GetAccessToken());
 
 		var queryParameters = GetQueryParameters(ticketFilterDto);
 		var queryString = string.Join("&", queryParameters.Select(qp => $"{qp.Key}={Uri.EscapeDataString(qp.Value)}"));
@@ -63,35 +62,6 @@ public class AmadeusApiService : IAmadeusApiService
 		}
 
 		return queryParameters;
-	}
-	private async Task<string> GetAccessToken()
-	{
-		if (!_memoryCache.TryGetValue(AccessToken, out string? accessToken))
-		{
-			accessToken = await RequestAccessToken();
-		}
-
-		return accessToken;
-	}
-	private async Task<string> RequestAccessToken()
-	{
-		var request = new HttpRequestMessage(HttpMethod.Post, _amadeusApiSetting.ApiAuthorizationPath);
-		request.Content = new FormUrlEncodedContent(new[]
-		{
-			new KeyValuePair<string, string>("grant_type", "client_credentials"),
-			new KeyValuePair<string, string>("client_id", _amadeusApiSetting.ApiKey),
-			new KeyValuePair<string, string>("client_secret", _amadeusApiSetting.ApiSecret)
-		});
-		var response = await _httpClient.SendAsync(request);
-
-		var token = await response.Content.ReadFromJsonAsync<AmadeusApiAuthorization>();
-		if (token is not null)
-		{
-			_memoryCache.Set(AccessToken, token.Access_Token);
-			return token.Access_Token;
-		}
-
-		return "";
 	}
 	private List<LowCostTicketDto> GenerateLowCostTickets(List<FlightOffer> flightOffers, TicketFilterDto ticketFilterDto)
 	{
