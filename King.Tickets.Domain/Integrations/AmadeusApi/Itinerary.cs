@@ -1,7 +1,9 @@
-﻿namespace King.Tickets.Domain.Integrations.AmadeusApi;
+﻿using System.Text.Json.Serialization;
+
+namespace King.Tickets.Domain.Integrations.AmadeusApi;
 
 public class Itinerary
 {
-    public string Duration { get; set; }
+    [JsonPropertyName("segments")]
     public List<Segment> Segments { get; set; }
 }

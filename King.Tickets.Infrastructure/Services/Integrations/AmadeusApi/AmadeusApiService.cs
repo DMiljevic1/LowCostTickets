@@ -36,9 +36,9 @@ public class AmadeusApiService : IAmadeusApiService
 			var response = await _httpClient.GetAsync(amadeusApiEndpoint, cancellationToken);
 			string responseContent = await response.Content.ReadAsStringAsync();
 			var amadeusApiResponse = JsonSerializer.Deserialize<AmadeusApiResponse>(responseContent);
-			if (amadeusApiResponse is null || amadeusApiResponse.Data is null)
+			if (amadeusApiResponse is null || amadeusApiResponse.FlightOffers is null)
 				return lowCostTickets;
-			lowCostTickets = GenerateLowCostTickets(amadeusApiResponse.Data, ticketFilterDto);
+			lowCostTickets = GenerateLowCostTickets(amadeusApiResponse.FlightOffers, ticketFilterDto);
 		}
 		catch (Exception e)
 		{
