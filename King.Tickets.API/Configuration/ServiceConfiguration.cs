@@ -1,7 +1,9 @@
 ﻿using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;
 using King.Tickets.Application.Settings;
+using King.Tickets.Domain.Repositories;
 using King.Tickets.Infrastructure.DatabaseContext;
+using King.Tickets.Infrastructure.Repositories;
 using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,7 @@ public static class ServiceConfiguration
     {
         ConfigureDbConnection(services, configuration);
         ConfigureApplicationServices(services, configuration);
+        ConfigureRepositories(services, configuration);
     }
     private static void ConfigureDbConnection(IServiceCollection services, IConfiguration configuration)
     {
@@ -25,5 +28,9 @@ public static class ServiceConfiguration
         services.AddMemoryCache();
         services.AddScoped<HttpClient>();
         services.AddScoped<IAmadeusApiService, AmadeusApiService>();
+    }
+    private static void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IFilterHistoryRepository, FilterHistoryRepository>();
     }
 }
