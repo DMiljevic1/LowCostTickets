@@ -4,7 +4,7 @@ services:
   king.tickets.api:
     image: ${DOCKER_REGISTRY-}kingticketsapi
     environment:
-      - ConnectionStrings__DefaultDatabase=Server=king.tickets.db;Database=TicketDatabase;User=sa;Password=passwordF4K1ng.1;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=king.tickets.db;Database=TicketDatabase;User=sa;Password=passwordF4K1ng.1;TrustServerCertificate=True;
     build:
       context: .
       dockerfile: King.Tickets.API/Dockerfile

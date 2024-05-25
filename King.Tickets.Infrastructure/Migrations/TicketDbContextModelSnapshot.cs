@@ -22,7 +22,7 @@ namespace King.Tickets.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.Ticket", b =>
+            modelBuilder.Entity("King.Tickets.Domain.Entities.LowCostTicket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,8 +34,11 @@ namespace King.Tickets.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ArrivalDepartureDate")
+                    b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
 
                     b.Property<string>("DepartureAirport")
                         .IsRequired()
@@ -49,7 +52,7 @@ namespace King.Tickets.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("LowCostTickets");
                 });
 #pragma warning restore 612, 618
         }
