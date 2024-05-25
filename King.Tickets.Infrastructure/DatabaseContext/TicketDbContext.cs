@@ -12,5 +12,6 @@ namespace King.Tickets.Infrastructure.DatabaseContext
     {
         public TicketDbContext(DbContextOptions<TicketDbContext> options) : base(options) { }
         public DbSet<LowCostTicket> LowCostTickets { get; set; }
+        public DbSet<FilterHistory> FilterHistories { get; set; }
     }
 }
