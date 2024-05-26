@@ -2,12 +2,8 @@
 using King.Tickets.Application.Settings;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;
 using King.Tickets.Domain.Integrations.AmadeusApi;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System.Net.Http.Json;
 using System.Text.Json;
-using King.Tickets.Domain.Entities;
-using Azure;
 
 namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 
@@ -15,8 +11,8 @@ public class AmadeusApiService : IAmadeusApiService
 {
 	private readonly HttpClient _httpClient;
 	private readonly AmadeusApiSetting _amadeusApiSetting;
-	private readonly AmadeusApiAuthorizantionService _amadeusApiAuthorizationService;
-	public AmadeusApiService(HttpClient httpClient, IOptions<AmadeusApiSetting> amadeusApiSettings, AmadeusApiAuthorizantionService amadeusApiAuthorizationService)
+	private readonly IAmadeusApiAuthorizationService _amadeusApiAuthorizationService;
+	public AmadeusApiService(HttpClient httpClient, IOptions<AmadeusApiSetting> amadeusApiSettings, IAmadeusApiAuthorizationService amadeusApiAuthorizationService)
 	{
 		_httpClient = httpClient;
 		_amadeusApiSetting = amadeusApiSettings.Value;

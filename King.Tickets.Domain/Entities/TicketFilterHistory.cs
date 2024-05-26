@@ -2,7 +2,7 @@
 
 namespace King.Tickets.Domain.Entities;
 
-public class FilterHistory
+public class TicketFilterHistory
 {
     public int Id { get; set; }
     public string ArrivalAirport { get; set; }

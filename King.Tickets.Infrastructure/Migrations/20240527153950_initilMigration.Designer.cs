@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace King.Tickets.Infrastructure.Migrations
 {
     [DbContext(typeof(TicketDbContext))]
-    [Migration("20240525095315_addedFilterHistoryTableAndAddedForeignKeyWithLowCostTicket")]
-    partial class addedFilterHistoryTableAndAddedForeignKeyWithLowCostTicket
+    [Migration("20240527153950_initilMigration")]
+    partial class initilMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,39 +25,6 @@ namespace King.Tickets.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.FilterHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ArrivalAirport")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Currency")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DepartureAirport")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DepartureDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NumberOfPassengers")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ReturnDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FilterHistory");
-                });
-
             modelBuilder.Entity("King.Tickets.Domain.Entities.LowCostTicket", b =>
                 {
                     b.Property<int>("Id")
@@ -79,9 +46,6 @@ namespace King.Tickets.Infrastructure.Migrations
 
                     b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("FilterHistoryId")
-                        .HasColumnType("int");
 
                     b.Property<int>("NumberOfPassengers")
                         .HasColumnType("int");
@@ -92,28 +56,64 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("TicketFilterHistoryId")
+                        .HasColumnType("int");
+
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilterHistoryId");
+                    b.HasIndex("TicketFilterHistoryId");
 
                     b.ToTable("LowCostTickets");
                 });
 
+            modelBuilder.Entity("King.Tickets.Domain.Entities.TicketFilterHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArrivalAirport")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DepartureAirport")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfPassengers")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TicketFilterHistory");
+                });
+
             modelBuilder.Entity("King.Tickets.Domain.Entities.LowCostTicket", b =>
                 {
-                    b.HasOne("King.Tickets.Domain.Entities.FilterHistory", "FilterHistory")
+                    b.HasOne("King.Tickets.Domain.Entities.TicketFilterHistory", "TicketFilterHistory")
                         .WithMany("LowCostTickets")
-                        .HasForeignKey("FilterHistoryId")
+                        .HasForeignKey("TicketFilterHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FilterHistory");
+                    b.Navigation("TicketFilterHistory");
                 });
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.FilterHistory", b =>
+            modelBuilder.Entity("King.Tickets.Domain.Entities.TicketFilterHistory", b =>
                 {
                     b.Navigation("LowCostTickets");
                 });

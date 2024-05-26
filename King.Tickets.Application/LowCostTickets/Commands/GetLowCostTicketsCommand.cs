@@ -1,4 +1,5 @@
-﻿using King.Tickets.Application.Services.Integrations.AmadeusApi;
+﻿using King.Tickets.Application.Services;
+using King.Tickets.Application.Services.Integrations.AmadeusApi;
 using MediatR;
 
 namespace King.Tickets.Application.LowCostTickets.Commands;
@@ -7,13 +8,13 @@ public record GetLowCostTicketsCommand(TicketFilterDto TicketFilterDto) : IReque
 
 public class GetLowCostTicketsHandler : IRequestHandler<GetLowCostTicketsCommand, List<LowCostTicketDto>>
 {
-	private readonly IAmadeusApiService _amadeusApi;
-	public GetLowCostTicketsHandler(IAmadeusApiService amadeusApi)
+	private readonly ILowCostTicketService _lowCostTicketService;
+	public GetLowCostTicketsHandler(ILowCostTicketService lowCostTicketService)
 	{
-		_amadeusApi = amadeusApi;
+		_lowCostTicketService = lowCostTicketService;
 	}
 	public async Task<List<LowCostTicketDto>> Handle(GetLowCostTicketsCommand request, CancellationToken cancellationToken)
 	{
-		return await _amadeusApi.GetLowCostTickets(request.TicketFilterDto, cancellationToken);
+		return await _lowCostTicketService.GetLowCostTickets(request.TicketFilterDto, cancellationToken);
 	}
 }
