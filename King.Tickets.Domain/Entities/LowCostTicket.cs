@@ -13,6 +13,6 @@ public class LowCostTicket
     public int NumberOfStops { get; set; }
     public Currency Currency { get; set; }
     public double TotalPrice { get; set; }
-    public int FilterHistoryId { get; set; }
-    public virtual FilterHistory? FilterHistory { get; set; }
+    public int TicketFilterHistoryId { get; set; }
+    public virtual TicketFilterHistory? TicketFilterHistory { get; set; }
 }

@@ -1,21 +1,20 @@
-﻿using Azure.Core;
-using King.Tickets.Application.Services.Integrations.AmadeusApi;
+﻿using King.Tickets.Application.Services.Integrations.AmadeusApi;
 using King.Tickets.Application.Settings;
 using Microsoft.Extensions.Caching.Memory;
-using System.Net.Http;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 
 namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 
-public class AmadeusApiAuthorizantionService : IAmadeusApiAuthorizationService
+public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 {
 	private readonly HttpClient _httpClient;
 	private readonly AmadeusApiSetting _amadeusApiSetting;
 	private readonly IMemoryCache _memoryCache;
 	private const string AccessToken = "Access_Token";
-	public AmadeusApiAuthorizantionService(AmadeusApiSetting amadeusApiSetting, IMemoryCache memoryCache, HttpClient httpClient)
+	public AmadeusApiAuthorizationService(IOptions<AmadeusApiSetting> amadeusApiSetting, IMemoryCache memoryCache, HttpClient httpClient)
 	{
-		_amadeusApiSetting = amadeusApiSetting;
+		_amadeusApiSetting = amadeusApiSetting.Value;
 		_memoryCache = memoryCache;
 		_httpClient = httpClient;
 	}
