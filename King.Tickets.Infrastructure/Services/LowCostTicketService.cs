@@ -31,7 +31,7 @@ public class LowCostTicketService : ILowCostTicketService
 		var lowCostTicketsDto = new List<LowCostTicketDto>();
 		var validationResults = _validator.Validate(ticketFilterDto);
 		if (!validationResults.IsValid)
-			throw new ValidationException("Validation failed");
+			throw new ValidationException("Validation failed. Errors: " + validationResults);
 
 		var ticketFilterHistory = _mapService.MapToTicketFilterHistory(ticketFilterDto);
 		var ticketFilterHistoryFromDb = await GetTicketFilterHistoryFromDb(ticketFilterHistory, cancellationToken);

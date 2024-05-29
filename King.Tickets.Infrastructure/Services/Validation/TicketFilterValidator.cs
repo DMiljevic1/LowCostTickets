@@ -13,6 +13,7 @@ public class TicketFilterValidator : AbstractValidator<TicketFilterDto>
 		RuleFor(filter => filter.DepartureDate).NotEmpty().WithMessage("Departure date cannot be empty!");
 		RuleFor(filter => filter.NumberOfPassengers).NotEmpty().WithMessage("Number of passengers cannot be empty!");
 		RuleFor(filter => filter.Currency).Must(IsCurrencyValid).WithMessage("Invalid currency!");
+		RuleFor(filter => filter.NumberOfPassengers).GreaterThan(0).WithMessage("Number of passengers must be greater than zero");
 	}
 
 	private bool IsCurrencyValid(Currency? currency)
