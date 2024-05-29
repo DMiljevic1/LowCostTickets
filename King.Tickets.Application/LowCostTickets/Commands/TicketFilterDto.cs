@@ -9,5 +9,5 @@ public class TicketFilterDto
     public DateTime DepartureDate { get; set; }
     public DateTime? ReturnDate { get; set; }
     public int NumberOfPassengers { get; set; }
-    public string Currency { get; set; }
+    public Currency? Currency { get; set; }
 }

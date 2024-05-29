@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;
@@ -11,6 +12,7 @@ using King.Tickets.Infrastructure.Services;
 using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 using King.Tickets.Infrastructure.Services.Mapping;
 using King.Tickets.Infrastructure.Services.Mapping.Profiles;
+using King.Tickets.Infrastructure.Services.Validation;
 using Microsoft.EntityFrameworkCore;
 
 namespace King.Tickets.API.Configuration;
@@ -43,6 +45,7 @@ public static class ServiceConfiguration
             mc.AddProfile(new TicketFilterProfile());
         });
         services.AddSingleton(mapperConfig.CreateMapper());
+        services.AddScoped<IValidator<TicketFilterDto>, TicketFilterValidator>();
     }
     private static void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
     {
