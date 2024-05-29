@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace King.Tickets.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initilMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace King.Tickets.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ArrivalAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartureAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArrivalAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NumberOfPassengers = table.Column<int>(type: "int", nullable: false),
@@ -35,12 +35,12 @@ namespace King.Tickets.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ArrivalAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartureAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArrivalAirport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NumberOfPassengers = table.Column<int>(type: "int", nullable: false),
-                    NumberOfStops = table.Column<int>(type: "int", nullable: false),
+                    NumberOfTransfers = table.Column<int>(type: "int", nullable: false),
                     Currency = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
                     TicketFilterHistoryId = table.Column<int>(type: "int", nullable: false)

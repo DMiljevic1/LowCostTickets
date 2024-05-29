@@ -47,7 +47,7 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.Property<int>("NumberOfPassengers")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfStops")
+                    b.Property<int>("NumberOfTransfers")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ReturnDate")

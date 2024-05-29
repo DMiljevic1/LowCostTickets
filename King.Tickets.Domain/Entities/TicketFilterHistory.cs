@@ -5,8 +5,8 @@ namespace King.Tickets.Domain.Entities;
 public class TicketFilterHistory
 {
     public int Id { get; set; }
-    public string ArrivalAirport { get; set; }
     public string DepartureAirport { get; set; }
+    public string ArrivalAirport { get; set; }
 	public DateTime DepartureDate { get; set; }
 	public DateTime? ReturnDate { get; set; }
 	public int NumberOfPassengers { get; set; }
