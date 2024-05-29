@@ -9,9 +9,6 @@ public class TicketFilterProfile : Profile
 {
     public TicketFilterProfile()
     {
-		CreateMap<TicketFilterHistory, TicketFilterDto>().
-			ForMember(dest => dest.Currency, opt => opt.MapFrom(src => src.Currency.ToString()));
-		CreateMap<TicketFilterDto, TicketFilterHistory>().
-			ForMember(dest => dest.Currency, opt => opt.MapFrom(src => Enum.Parse<Currency>(src.Currency)));
+		CreateMap<TicketFilterHistory, TicketFilterDto>().ReverseMap();
 	}
 }

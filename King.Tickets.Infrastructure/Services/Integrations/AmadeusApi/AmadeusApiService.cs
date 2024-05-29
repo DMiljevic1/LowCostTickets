@@ -49,12 +49,15 @@ public class AmadeusApiService : IAmadeusApiService
 			{ "originLocationCode", ticketFilterDto.ArrivalAirport},
 			{ "destinationLocationCode", ticketFilterDto.DepartureAirport},
 			{ "departureDate", ticketFilterDto.DepartureDate.ToString("yyyy-MM-dd")},
-			{ "adults", ticketFilterDto.NumberOfPassengers.ToString()},
-			{ "currencyCode", ticketFilterDto.Currency}
+			{ "adults", ticketFilterDto.NumberOfPassengers.ToString()}
 		};
 		if (ticketFilterDto.ReturnDate != null)
 		{
 			queryParameters.Add("returnDate", ticketFilterDto.ReturnDate.Value.ToString("yyyy-MM-dd"));
+		}
+		if (ticketFilterDto.Currency != null)
+		{
+			queryParameters.Add("currencyCode", ticketFilterDto.Currency.Value.ToString());
 		}
 
 		return queryParameters;

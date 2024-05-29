@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;
@@ -14,19 +15,23 @@ public class LowCostTicketService : ILowCostTicketService
 	private readonly IAmadeusApiService _amadeusApiService;
 	private readonly ILowCostTicketRepository _lowCostTicketRepository;
 	private readonly IMapService _mapService;
-	public LowCostTicketService(ITicketFilterHistoryRepository ticketFilterHistoryRepository, IAmadeusApiService amadeusApiService, ILowCostTicketRepository lowCostTicketRepository, IMapService mapService)
+	private readonly IValidator<TicketFilterDto> _validator;
+	public LowCostTicketService(ITicketFilterHistoryRepository ticketFilterHistoryRepository, IAmadeusApiService amadeusApiService, 
+		ILowCostTicketRepository lowCostTicketRepository, IMapService mapService, IValidator<TicketFilterDto> validator)
 	{
 		_ticketFilterHistoryRepository = ticketFilterHistoryRepository;
 		_amadeusApiService = amadeusApiService;
 		_lowCostTicketRepository = lowCostTicketRepository;
 		_mapService = mapService;
+		_validator = validator;
 	}
 
 	public async Task<List<LowCostTicketDto>> GetLowCostTickets(TicketFilterDto ticketFilterDto, CancellationToken cancellationToken)
 	{
 		var lowCostTicketsDto = new List<LowCostTicketDto>();
-		if(ticketFilterDto == null)
-			return lowCostTicketsDto;
+		var validationResults = _validator.Validate(ticketFilterDto);
+		if (!validationResults.IsValid)
+			throw new ValidationException("Validation failed. Errors: " + validationResults);
 
 		var ticketFilterHistory = _mapService.MapToTicketFilterHistory(ticketFilterDto);
 		var ticketFilterHistoryFromDb = await GetTicketFilterHistoryFromDb(ticketFilterHistory, cancellationToken);
