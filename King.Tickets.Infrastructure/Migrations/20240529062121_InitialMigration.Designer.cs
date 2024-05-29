@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace King.Tickets.Infrastructure.Migrations
 {
     [DbContext(typeof(TicketDbContext))]
-    [Migration("20240527153950_initilMigration")]
-    partial class initilMigration
+    [Migration("20240529062121_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.Property<int>("NumberOfPassengers")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfStops")
+                    b.Property<int>("NumberOfTransfers")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ReturnDate")
