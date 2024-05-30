@@ -2,6 +2,7 @@
 using King.Tickets.BlazorUI.IServices;
 using King.Tickets.BlazorUI.Models;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace King.Tickets.BlazorUI.Pages.RazorPageBases;
 
@@ -19,7 +20,6 @@ public class LowCostTicketListBase : ComponentBase
 	{
 		lowCostTickets = new List<LowCostTicket>();
 		ticketFilter = new TicketFilter();
-		departureDate = DateTime.Today;
 		currentDate = DateTime.Today;
 	}
 	protected async Task GetLowCostTickets()
