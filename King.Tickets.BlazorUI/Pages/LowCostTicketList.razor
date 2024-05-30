@@ -38,6 +38,14 @@
     </MudItem>
 </MudGrid>
 
+@if(isLoading)
+{
+    <MudGrid Justify="Justify.Center">
+        <MudItem>
+            <MudProgressCircular Color="Color.Info" Style="height:100px;width:100px;position:absolute" Size="Size.Large" Indeterminate="true" />
+        </MudItem>
+    </MudGrid>
+}
 <MudTable Items="@lowCostTickets">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Low cost flight tickets</MudText>

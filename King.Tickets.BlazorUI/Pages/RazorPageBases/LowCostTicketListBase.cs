@@ -13,6 +13,7 @@ public class LowCostTicketListBase : ComponentBase
 	protected TicketFilter ticketFilter { get; set; }
 	protected DateTime? departureDate { get; set; }
 	protected DateTime minDate { get; set; }
+	protected bool isLoading = false;
 	protected override async Task OnInitializedAsync()
 	{
 		lowCostTickets = new List<LowCostTicket>();
@@ -21,7 +22,9 @@ public class LowCostTicketListBase : ComponentBase
 	}
 	protected async Task GetLowCostTickets()
 	{
+		isLoading = true;
 		ticketFilter.DepartureDate = departureDate!.Value;
 		lowCostTickets = await _lowCostTicketService.GetLowCostTickets(ticketFilter);
+		isLoading = false;
 	}
 }
