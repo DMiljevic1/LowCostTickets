@@ -11,13 +11,17 @@ public class LowCostTicketListBase : ComponentBase
 	public ILowCostTicketService _lowCostTicketService {  get; set; }
 	protected List<LowCostTicket> lowCostTickets { get; set; }
 	protected TicketFilter ticketFilter { get; set; }
+	protected DateTime? departureDate { get; set; }
+	protected DateTime minDate { get; set; }
 	protected override async Task OnInitializedAsync()
 	{
 		lowCostTickets = new List<LowCostTicket>();
 		ticketFilter = new TicketFilter();
+		minDate = DateTime.Today;
 	}
 	protected async Task GetLowCostTickets()
 	{
+		ticketFilter.DepartureDate = departureDate!.Value;
 		lowCostTickets = await _lowCostTicketService.GetLowCostTickets(ticketFilter);
 	}
 }

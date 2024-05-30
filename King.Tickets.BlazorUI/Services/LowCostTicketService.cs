@@ -38,18 +38,18 @@ public class LowCostTicketService : ILowCostTicketService
     {
         var queryParameters = new Dictionary<string, string>
         {
-            { "originLocationCode", ticketFilterDto.ArrivalAirport},
-            { "destinationLocationCode", ticketFilterDto.DepartureAirport},
-            { "departureDate", ticketFilterDto.DepartureDate.ToString("yyyy-MM-dd")},
-            { "adults", ticketFilterDto.NumberOfPassengers.ToString()}
+            { "DepartureAirport", ticketFilterDto.DepartureAirport},
+            { "ArrivalAirport", ticketFilterDto.ArrivalAirport},
+            { "DepartureDate", ticketFilterDto.DepartureDate.ToString("yyyy-MM-dd")},
+            { "NumberOfPassengers", ticketFilterDto.NumberOfPassengers.ToString()}
         };
         if (ticketFilterDto.ReturnDate != null)
         {
-            queryParameters.Add("returnDate", ticketFilterDto.ReturnDate.Value.ToString("yyyy-MM-dd"));
+            queryParameters.Add("ReturnDate", ticketFilterDto.ReturnDate.Value.ToString("yyyy-MM-dd"));
         }
         if (ticketFilterDto.Currency != null)
         {
-            queryParameters.Add("currencyCode", ticketFilterDto.Currency.Value.ToString());
+            queryParameters.Add("Currency", ticketFilterDto.Currency.Value.ToString());
         }
 
         return queryParameters;

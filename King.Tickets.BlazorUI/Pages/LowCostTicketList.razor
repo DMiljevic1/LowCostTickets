@@ -9,19 +9,19 @@
 </MudGrid>
 <MudGrid Justify="Justify.FlexStart">
     <MudItem xs="12" sm="2" md="2">
-        <MudTextField  Label="Departure Airport" Variant="Variant.Outlined" @bind-Value="@ticketFilter.DepartureAirport"/>
+        <MudTextField  Label="Departure Airport" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.DepartureAirport"/>
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
-        <MudTextField Label="Arrival Airport" Variant="Variant.Outlined" @bind-Value="@ticketFilter.ArrivalAirport"/>
+        <MudTextField Label="Arrival Airport" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.ArrivalAirport" />
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
-        <MudDatePicker Label="Departure Date" Variant="Variant.Outlined" @bind-Value="@ticketFilter.DepartureDate"/>
+        <MudDatePicker Label="Departure Date" MinDate="@minDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" Required="true" @bind-Date="@departureDate" />
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
-        <MudDatePicker Label="Return Date" Variant="Variant.Outlined" @bind-Value="@ticketFilter.ReturnDate" />
+        <MudDatePicker Label="Return Date" MinDate="@minDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" @bind-Date="@ticketFilter.ReturnDate" />
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
-        <MudNumericField Label="Number of Passengers" Variant="Variant.Outlined" @bind-Value="@ticketFilter.NumberOfPassengers"/>
+        <MudNumericField Label="Number of Passengers" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.NumberOfPassengers" />
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
         <MudSelect Label="Currency" @bind-Value="@ticketFilter.Currency" Variant="Variant.Outlined">

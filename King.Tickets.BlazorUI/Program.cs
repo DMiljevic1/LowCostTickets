@@ -1,13 +1,21 @@
 using King.Tickets.BlazorUI.IServices;
 using King.Tickets.BlazorUI.Services;
 using MudBlazor.Services;
+using System.Net.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped(provider =>
+{
+	var handler = new HttpClientHandler
+	{
+		ServerCertificateCustomValidationCallback = (sender, cert, chain, SslPolicyErrors) => true
+	};
+	return new HttpClient(handler);
+});
 builder.Services.AddScoped<ILowCostTicketService, LowCostTicketService>();
 builder.Services.AddMudServices();
 

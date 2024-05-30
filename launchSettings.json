@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "king.tickets.api": "StartDebugging",
-        "king.tickets.db": "StartWithoutDebugging"
+        "king.tickets.db": "StartWithoutDebugging",
+        "king.tickets.blazorui": "StartDebugging"
       }
     }
   }
