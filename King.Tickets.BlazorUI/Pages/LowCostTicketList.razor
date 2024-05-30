@@ -1,0 +1,72 @@
+﻿@page "/"
+@using King.Tickets.BlazorUI.Enums
+@inherits RazorPageBases.LowCostTicketListBase;
+
+<MudGrid Justify="Justify.FlexStart" Style="margin-bottom:20px;">
+    <MudItem>
+        <MudText Style="font-size:30px; font-weight:700">Please select flight properties</MudText>
+    </MudItem>
+</MudGrid>
+<MudGrid Justify="Justify.FlexStart">
+    <MudItem xs="12" sm="2" md="2">
+        <MudTextField  Label="Departure Airport" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.DepartureAirport"/>
+    </MudItem>
+    <MudItem xs="12" sm="2" md="2">
+        <MudTextField Label="Arrival Airport" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.ArrivalAirport" />
+    </MudItem>
+    <MudItem xs="12" sm="2" md="2">
+        <MudDatePicker Label="Departure Date" MinDate="@minDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" Required="true" @bind-Date="@departureDate" />
+    </MudItem>
+    <MudItem xs="12" sm="2" md="2">
+        <MudDatePicker Label="Return Date" MinDate="@minDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" @bind-Date="@ticketFilter.ReturnDate" />
+    </MudItem>
+    <MudItem xs="12" sm="2" md="2">
+        <MudNumericField Label="Number of Passengers" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.NumberOfPassengers" />
+    </MudItem>
+    <MudItem xs="12" sm="2" md="2">
+        <MudSelect Label="Currency" @bind-Value="@ticketFilter.Currency" Variant="Variant.Outlined">
+            @foreach(var currency in Enum.GetValues(typeof(Currency)))
+            {
+                <MudSelectItem Value="@((Currency?) currency)">@currency</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+</MudGrid>
+<MudGrid Justify="Justify.FlexStart" Style="margin-bottom:30px;">
+    <MudItem>
+        <MudButton StartIcon="@Icons.Material.Filled.Search" Variant="Variant.Filled" Color="Color.Default" OnClick="GetLowCostTickets" Size="Size.Medium" Style="margin-top:30px;">Search flights</MudButton>
+    </MudItem>
+</MudGrid>
+
+<MudTable Items="@lowCostTickets">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Low cost flight tickets</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+    <NoRecordsContent>
+        No records found.
+    </NoRecordsContent>
+    <HeaderContent>
+        <MudTh>Departure Airport</MudTh>
+        <MudTh>Arrival Airport</MudTh>
+        <MudTh>Departure Date</MudTh>
+        <MudTh>Return Date</MudTh>
+        <MudTh>Number Of Passengers</MudTh>
+        <MudTh>Number Of Transfers</MudTh>
+        <MudTh>Currency</MudTh>
+        <MudTh>Total Price</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+            <MudTd DataLabel="Departure Airport">@context.DepartureAirport</MudTd>
+            <MudTd DataLabel="Arrival Airport">@context.ArrivalAirport</MudTd>
+            <MudTd DataLabel="Departure Date">@context.DepartureDate.ToString("dd.MM.yyyy.")</MudTd>
+            <MudTd DataLabel="Return Date">@(@context.ReturnDate == null ? "/" : context.ReturnDate.Value.ToString("dd.MM.yyyy."))</MudTd>
+            <MudTd DataLabel="Number Of Passengers">@context.NumberOfPassengers</MudTd>
+            <MudTd DataLabel="Number Of Transfers">@context.NumberOfTransfers</MudTd>
+            <MudTd DataLabel="Currency">@context.Currency</MudTd>
+            <MudTd DataLabel="Arrival Airport">@context.TotalPrice</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>

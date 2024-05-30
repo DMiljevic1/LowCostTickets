@@ -30,8 +30,23 @@ services:
     networks:
       - mynetwork
 
+  king.tickets.blazorui:
+    image: ${DOCKER_REGISTRY-}kingticketsblazorui
+    build:
+      context: .
+      dockerfile: King.Tickets.BlazorUI/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - mynetwork
+    depends_on:
+      - king.tickets.api
+
 volumes:
   mssql_data:
 networks:
   mynetwork:
     driver: bridge
+
+

@@ -25,13 +25,13 @@ public class AmadeusApiService : IAmadeusApiService
 
 		var queryParameters = GetQueryParameters(ticketFilterDto);
 		var queryString = string.Join("&", queryParameters.Select(qp => $"{qp.Key}={Uri.EscapeDataString(qp.Value)}"));
-		var amadeusApiEndpoint = _amadeusApiSetting.ApiTestPath + queryString;
+		var amadeusApiEndpoint = _amadeusApiSetting.ApiTestPath + "?" + queryString;
 		try
 		{
 			var response = await _httpClient.GetAsync(amadeusApiEndpoint, cancellationToken);
 			string responseContent = await response.Content.ReadAsStringAsync();
 			var amadeusApiResponse = JsonSerializer.Deserialize<AmadeusApiResponse>(responseContent);
-			if (amadeusApiResponse is null || amadeusApiResponse.FlightOffers is null)
+			if (amadeusApiResponse == null || amadeusApiResponse.FlightOffers == null)
 				return lowCostTickets;
 			lowCostTickets = GenerateLowCostTickets(amadeusApiResponse.FlightOffers, ticketFilterDto);
 		}
