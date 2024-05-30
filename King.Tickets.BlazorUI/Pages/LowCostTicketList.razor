@@ -15,10 +15,17 @@
         <MudTextField Label="Arrival Airport" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.ArrivalAirport" />
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
-        <MudDatePicker Label="Departure Date" MinDate="@minDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" Required="true" @bind-Date="@departureDate" />
+        <MudDatePicker Label="Departure Date" MinDate="@currentDate" AutoClose="true" Editable="true" DisableToolbar="true" MaxDate="@ticketFilter.ReturnDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" Required="true" @bind-Date="@departureDate" />
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
-        <MudDatePicker Label="Return Date" MinDate="@minDate" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" @bind-Date="@ticketFilter.ReturnDate" />
+        @if(departureDate == null)
+        {
+            <MudDatePicker Label="Return Date" MinDate="@currentDate" AutoClose="true" Editable="true" DisableToolbar="true" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" @bind-Date="@ticketFilter.ReturnDate" />
+        }
+        else
+        {
+            <MudDatePicker Label="Return Date" MinDate="departureDate" AutoClose="true" Editable="true" DisableToolbar="true" Variant="Variant.Outlined" DateFormat="dd.MM.yyyy" @bind-Date="@ticketFilter.ReturnDate" />
+        }
     </MudItem>
     <MudItem xs="12" sm="2" md="2">
         <MudNumericField Label="Number of Passengers" Variant="Variant.Outlined" Required="true" @bind-Value="@ticketFilter.NumberOfPassengers" />
