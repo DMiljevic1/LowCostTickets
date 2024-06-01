@@ -11,7 +11,8 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 	private readonly HttpClient _httpClient;
 	private readonly AmadeusApiSetting _amadeusApiSetting;
 	private readonly IMemoryCache _memoryCache;
-	private const string AccessToken = "Access_Token";
+	private const string AccessToken = "AccessToken";
+	private const string AccessTokenExpireDateTime = "AccessTokenExpireDateTime";
 	public AmadeusApiAuthorizationService(IOptions<AmadeusApiSetting> amadeusApiSetting, IMemoryCache memoryCache, HttpClient httpClient)
 	{
 		_amadeusApiSetting = amadeusApiSetting.Value;
@@ -25,9 +26,21 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 		{
 			accessToken = await RequestAccessToken();
 		}
+		else if(IsTokenExpired())
+		{
+            accessToken = await RequestAccessToken();
+        }
 
 		return accessToken;
 	}
+	private bool IsTokenExpired()
+	{
+        if (_memoryCache.TryGetValue(AccessTokenExpireDateTime, out DateTime? accessTokenExpireDateTime))
+		{
+			return DateTime.UtcNow >= accessTokenExpireDateTime;
+		}
+		return true;
+    }
 	private async Task<string> RequestAccessToken()
 	{
 		var request = new HttpRequestMessage(HttpMethod.Post, _amadeusApiSetting.ApiAuthorizationPath);
@@ -43,6 +56,7 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 		if (token is not null)
 		{
 			_memoryCache.Set(AccessToken, token.Access_Token);
+			_memoryCache.Set(AccessTokenExpireDateTime, DateTime.UtcNow.AddSeconds(token.Expires_In));
 			return token.Access_Token;
 		}
 
