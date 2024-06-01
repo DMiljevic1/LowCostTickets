@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using King.Tickets.API.Infrastructure;
 using King.Tickets.Application.DTOs;
 using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services;
@@ -57,5 +58,10 @@ public static class ServiceConfiguration
     public static void ConfigureLogging(this IServiceCollection services, WebApplicationBuilder builder)
     {
         builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+    }
+    public static void ConfigureExceptionHandler(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
     }
 }
