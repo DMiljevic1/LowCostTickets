@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace King.Tickets.Domain.Integrations.AmadeusApi;
+namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi.Models;
 
 public class FlightOffer
 {

@@ -22,7 +22,7 @@ namespace King.Tickets.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.LowCostTicket", b =>
+            modelBuilder.Entity("King.Tickets.Infrastructure.Entities.LowCostTicket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.ToTable("LowCostTickets");
                 });
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.TicketFilterHistory", b =>
+            modelBuilder.Entity("King.Tickets.Infrastructure.Entities.TicketFilterHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,9 +99,9 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.ToTable("TicketFilterHistory");
                 });
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.LowCostTicket", b =>
+            modelBuilder.Entity("King.Tickets.Infrastructure.Entities.LowCostTicket", b =>
                 {
-                    b.HasOne("King.Tickets.Domain.Entities.TicketFilterHistory", "TicketFilterHistory")
+                    b.HasOne("King.Tickets.Infrastructure.Entities.TicketFilterHistory", "TicketFilterHistory")
                         .WithMany("LowCostTickets")
                         .HasForeignKey("TicketFilterHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -110,7 +110,7 @@ namespace King.Tickets.Infrastructure.Migrations
                     b.Navigation("TicketFilterHistory");
                 });
 
-            modelBuilder.Entity("King.Tickets.Domain.Entities.TicketFilterHistory", b =>
+            modelBuilder.Entity("King.Tickets.Infrastructure.Entities.TicketFilterHistory", b =>
                 {
                     b.Navigation("LowCostTickets");
                 });
