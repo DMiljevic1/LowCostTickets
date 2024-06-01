@@ -1,6 +1,6 @@
 ﻿using King.Tickets.Domain.Enums;
 
-namespace King.Tickets.Application.LowCostTickets.Commands;
+namespace King.Tickets.Application.DTOs;
 
 public class TicketFilterDto
 {

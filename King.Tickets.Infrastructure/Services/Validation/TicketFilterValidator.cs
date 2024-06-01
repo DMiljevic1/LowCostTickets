@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using King.Tickets.Application.LowCostTickets.Commands;
+using King.Tickets.Application.DTOs;
 using King.Tickets.Domain.Enums;
 
 namespace King.Tickets.Infrastructure.Services.Validation;

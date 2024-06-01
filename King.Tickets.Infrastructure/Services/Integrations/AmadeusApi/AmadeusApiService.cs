@@ -1,9 +1,9 @@
-﻿using King.Tickets.Application.LowCostTickets.Commands;
-using King.Tickets.Application.Settings;
+﻿using King.Tickets.Application.Settings;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;
-using King.Tickets.Domain.Integrations.AmadeusApi;
+using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi.Models;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using King.Tickets.Application.DTOs;
 
 namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 

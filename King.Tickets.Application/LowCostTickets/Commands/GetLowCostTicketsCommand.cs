@@ -1,4 +1,5 @@
-﻿using King.Tickets.Application.Services;
+﻿using King.Tickets.Application.DTOs;
+using King.Tickets.Application.Services;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;
 using MediatR;
 

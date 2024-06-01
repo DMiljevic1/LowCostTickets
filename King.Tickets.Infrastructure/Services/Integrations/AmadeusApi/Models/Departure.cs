@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace King.Tickets.Domain.Integrations.AmadeusApi;
+namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi.Models;
 
-public class Arrival
+public class Departure
 {
 	[JsonPropertyName("iataCode")]
 	public string IataCode { get; set; }

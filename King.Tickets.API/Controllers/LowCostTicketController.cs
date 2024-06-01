@@ -1,4 +1,5 @@
-﻿using King.Tickets.Application.LowCostTickets.Commands;
+﻿using King.Tickets.Application.DTOs;
+using King.Tickets.Application.LowCostTickets.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
