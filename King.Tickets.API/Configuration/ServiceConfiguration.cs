@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using King.Tickets.Application.DTOs;
 using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services;
 using King.Tickets.Application.Services.Integrations.AmadeusApi;

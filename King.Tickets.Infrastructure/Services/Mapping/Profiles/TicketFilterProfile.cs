@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using King.Tickets.Application.LowCostTickets.Commands;
+using King.Tickets.Application.DTOs;
 using King.Tickets.Domain.Entities;
 using King.Tickets.Domain.Enums;
 

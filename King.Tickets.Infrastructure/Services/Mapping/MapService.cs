@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using King.Tickets.Application.LowCostTickets.Commands;
+using King.Tickets.Application.DTOs;
 using King.Tickets.Application.Services.Mapping;
 using King.Tickets.Domain.Entities;
 

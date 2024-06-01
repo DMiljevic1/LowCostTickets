@@ -1,4 +1,4 @@
-﻿using King.Tickets.Application.LowCostTickets.Commands;
+﻿using King.Tickets.Application.DTOs;
 using King.Tickets.Domain.Entities;
 
 namespace King.Tickets.Application.Services.Mapping;
