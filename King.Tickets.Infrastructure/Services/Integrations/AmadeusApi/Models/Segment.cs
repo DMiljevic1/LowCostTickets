@@ -9,7 +9,4 @@ public class Segment
 
 	[JsonPropertyName("arrival")]
 	public Arrival Arrival { get; set; }
-
-	[JsonPropertyName("numberOfStops")]
-	public int NumberOfStops { get; set; }
 }
