@@ -32,7 +32,7 @@ public class TicketFilterHistoryRepository : ITicketFilterHistoryRepository
 			fh.DepartureDate == ticketFilterHistory.DepartureDate &&
 			fh.NumberOfPassengers == ticketFilterHistory.NumberOfPassengers &&
 			fh.Currency == ticketFilterHistory.Currency &&
-			fh.ReturnDate == ticketFilterHistory.ReturnDate).Include(tfh => tfh.LowCostTickets).FirstOrDefaultAsync();
+			fh.ReturnDate == ticketFilterHistory.ReturnDate).Include(tfh => tfh.LowCostTickets).FirstOrDefaultAsync(cancellationToken);
 
 		return ticketHistoryResult;
 	}

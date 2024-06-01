@@ -15,11 +15,24 @@ public class LowCostTicketRepository : ILowCostTicketRepository
 
 	public async Task AddLowCostTickets(List<LowCostTicket> lowCostTickets, CancellationToken cancellationToken)
 	{
-		for(int i = 0; i < lowCostTickets.Count; i+=BatchSize)
+		using(var transaction = await _ticketDbContext.Database.BeginTransactionAsync(cancellationToken))
 		{
-			var batch = lowCostTickets.Skip(i).Take(BatchSize).ToList();
-			await _ticketDbContext.AddRangeAsync(batch, cancellationToken);
-			await _ticketDbContext.SaveChangesAsync(cancellationToken);
+			try
+			{
+                for (int i = 0; i < lowCostTickets.Count; i += BatchSize)
+                {
+                    var batch = lowCostTickets.Skip(i).Take(BatchSize).ToList();
+                    await _ticketDbContext.AddRangeAsync(batch, cancellationToken);
+                    await _ticketDbContext.SaveChangesAsync(cancellationToken);
+                }
+
+				await transaction.CommitAsync(cancellationToken);
+            }
+			catch
+			{
+				await transaction.RollbackAsync(cancellationToken);
+				throw;
+			}
 		}
 	}
 }
