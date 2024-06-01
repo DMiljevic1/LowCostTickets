@@ -1,6 +1,7 @@
 ﻿using King.Tickets.Domain.Entities;
 using King.Tickets.Domain.Repositories;
 using King.Tickets.Infrastructure.DatabaseContext;
+using Microsoft.Extensions.Logging;
 
 namespace King.Tickets.Infrastructure.Repositories;
 
@@ -8,9 +9,11 @@ public class LowCostTicketRepository : ILowCostTicketRepository
 {
 	private readonly TicketDbContext _ticketDbContext;
 	private const int BatchSize = 100;
-	public LowCostTicketRepository(TicketDbContext ticketDbContext)
+	private readonly ILogger<LowCostTicketRepository> _logger;
+	public LowCostTicketRepository(TicketDbContext ticketDbContext, ILogger<LowCostTicketRepository> logger)
 	{
 		_ticketDbContext = ticketDbContext;
+		_logger = logger;
 	}
 
 	public async Task AddLowCostTickets(List<LowCostTicket> lowCostTickets, CancellationToken cancellationToken)
@@ -27,9 +30,11 @@ public class LowCostTicketRepository : ILowCostTicketRepository
                 }
 
 				await transaction.CommitAsync(cancellationToken);
+				_logger.LogDebug("Saved low cost tickets. LowCostTickets: {@lowCostTickets}", lowCostTickets);
             }
-			catch
+			catch(Exception e)
 			{
+				_logger.LogError("Saving low cost tickets failed. Error: {@e}", e);
 				await transaction.RollbackAsync(cancellationToken);
 				throw;
 			}
