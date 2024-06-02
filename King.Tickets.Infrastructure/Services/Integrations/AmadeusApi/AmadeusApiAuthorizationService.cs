@@ -5,24 +5,25 @@ using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 
 public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 {
-	private readonly HttpClient _httpClient;
+	private readonly IHttpClientFactory _httpClientFactory;
 	private readonly AmadeusApiSetting _amadeusApiSetting;
 	private readonly IMemoryCache _memoryCache;
 	private const string AccessToken = "AccessToken";
 	private const string AccessTokenExpireDateTime = "AccessTokenExpireDateTime";
 	private readonly ILogger<AmadeusApiAuthorizationService> _logger;
-	public AmadeusApiAuthorizationService(IOptions<AmadeusApiSetting> amadeusApiSetting, IMemoryCache memoryCache, 
-		HttpClient httpClient, ILogger<AmadeusApiAuthorizationService> logger)
+	public AmadeusApiAuthorizationService(IOptions<AmadeusApiSetting> amadeusApiSetting, IMemoryCache memoryCache,
+        IHttpClientFactory httpClientFactory, ILogger<AmadeusApiAuthorizationService> logger)
 	{
 		_amadeusApiSetting = amadeusApiSetting.Value;
 		_memoryCache = memoryCache;
-		_httpClient = httpClient;
+		_httpClientFactory = httpClientFactory;
 		_logger = logger;
 	}
 
@@ -63,21 +64,22 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 	{
         try
         {
-            var response = await _httpClient.SendAsync(request);
-            _logger.LogInformation($"Response from amadeus api: {request}, {response}");
-            var tokenAmadeus = await response.Content.ReadFromJsonAsync<AmadeusApiAuthorization>();
-            if (tokenAmadeus == null)
-                throw new Exception("Cannot fetch token from amadeus api");
+            var httpClient = _httpClientFactory.CreateClient();
+			using(var response = await httpClient.SendAsync(request))
+			{
+                _logger.LogInformation($"Response from amadeus api: {request}, {response}");
+                var tokenAmadeus = await response.Content.ReadFromJsonAsync<AmadeusApiAuthorization>();
+                if (tokenAmadeus == null)
+                    throw new Exception("Cannot fetch token from amadeus api");
 
-            _memoryCache.Set(AccessToken, tokenAmadeus.Access_Token);
-            _memoryCache.Set(AccessTokenExpireDateTime, DateTime.UtcNow.AddSeconds(tokenAmadeus.Expires_In));
-            return tokenAmadeus.Access_Token;
-
-
+                _memoryCache.Set(AccessToken, tokenAmadeus.Access_Token);
+                _memoryCache.Set(AccessTokenExpireDateTime, DateTime.UtcNow.AddSeconds(tokenAmadeus.Expires_In));
+                return tokenAmadeus.Access_Token;
+            }
         }
         catch (Exception e)
         {
-            _logger.LogError("Requesting for access token failed: {@e}", e);
+            _logger.LogError($"Requesting for access token failed: {e}");
             throw;
         }
     }

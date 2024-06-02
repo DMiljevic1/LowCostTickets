@@ -25,7 +25,7 @@ public class GetLowCostTicketsHandler : IRequestHandler<GetLowCostTicketsCommand
         var validationResults = _validator.Validate(request.TicketFilterDto);
         if (!validationResults.IsValid)
         {
-            _logger.LogError("Validation failed: {@validationResults}", validationResults);
+            _logger.LogError($"Validation failed: {validationResults}");
             throw new ValidationException("Validation failed. Errors: " + validationResults);
         }
         return await _lowCostTicketService.GetLowCostTickets(request.TicketFilterDto, cancellationToken);

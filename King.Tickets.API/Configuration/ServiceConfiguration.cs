@@ -37,7 +37,7 @@ public static class ServiceConfiguration
         services.Configure<AmadeusApiSetting>(configuration.GetSection("AmadeusApi"));
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetLowCostTicketsHandler).Assembly));
         services.AddMemoryCache();
-        services.AddScoped<HttpClient>();
+        services.AddHttpClient();
         services.AddScoped<IAmadeusApiService, AmadeusApiService>();
         services.AddScoped<IAmadeusApiAuthorizationService, AmadeusApiAuthorizationService>();
         services.AddScoped<ILowCostTicketService, LowCostTicketService>();
