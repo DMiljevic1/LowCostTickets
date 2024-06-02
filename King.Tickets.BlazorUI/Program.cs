@@ -1,13 +1,17 @@
 using King.Tickets.BlazorUI.IServices;
 using King.Tickets.BlazorUI.Services;
 using MudBlazor.Services;
-using System.Net.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor()
+.AddCircuitOptions(options =>
+{
+    options.DisconnectedCircuitRetentionPeriod = TimeSpan.FromMinutes(15);
+    options.JSInteropDefaultCallTimeout = TimeSpan.FromMinutes(15);
+});
 builder.Services.AddScoped(provider =>
 {
 	var handler = new HttpClientHandler

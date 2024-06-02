@@ -29,7 +29,7 @@ public class LowCostTicketRepository : ILowCostTicketRepository
             }
 
             await transaction.CommitAsync(cancellationToken);
-            _logger.LogDebug("Saved low cost tickets. LowCostTickets: {@lowCostTickets}", lowCostTickets);
+            _logger.LogInformation("Saved low cost tickets. LowCostTickets.");
         }
         catch (Exception e)
         {
