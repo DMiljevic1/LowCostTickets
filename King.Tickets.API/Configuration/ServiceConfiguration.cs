@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using King.Tickets.API.ExceptionHandlers;
 using King.Tickets.Application.DTOs;
 using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services;
@@ -15,6 +16,7 @@ using King.Tickets.Infrastructure.Services.Mapping;
 using King.Tickets.Infrastructure.Services.Mapping.Profiles;
 using King.Tickets.Infrastructure.Services.Validation;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace King.Tickets.API.Configuration;
 
@@ -52,5 +54,14 @@ public static class ServiceConfiguration
     {
         services.AddScoped<ITicketFilterHistoryRepository, TicketFilterHistoryRepository>();
         services.AddScoped<ILowCostTicketRepository, LowCostTicketRepository>();
+    }
+    public static void ConfigureLogging(this IServiceCollection services, WebApplicationBuilder builder)
+    {
+        builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+    }
+    public static void ConfigureExceptionHandler(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
     }
 }

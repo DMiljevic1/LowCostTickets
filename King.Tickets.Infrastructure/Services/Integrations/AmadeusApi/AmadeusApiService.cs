@@ -4,6 +4,7 @@ using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi.Models;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 using King.Tickets.Application.DTOs;
+using Microsoft.Extensions.Logging;
 
 namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 
@@ -12,11 +13,14 @@ public class AmadeusApiService : IAmadeusApiService
 	private readonly HttpClient _httpClient;
 	private readonly AmadeusApiSetting _amadeusApiSetting;
 	private readonly IAmadeusApiAuthorizationService _amadeusApiAuthorizationService;
-	public AmadeusApiService(HttpClient httpClient, IOptions<AmadeusApiSetting> amadeusApiSettings, IAmadeusApiAuthorizationService amadeusApiAuthorizationService)
+	private readonly ILogger<AmadeusApiService> _logger;
+	public AmadeusApiService(HttpClient httpClient, IOptions<AmadeusApiSetting> amadeusApiSettings, 
+		IAmadeusApiAuthorizationService amadeusApiAuthorizationService, ILogger<AmadeusApiService> logger)
 	{
 		_httpClient = httpClient;
 		_amadeusApiSetting = amadeusApiSettings.Value;
 		_amadeusApiAuthorizationService = amadeusApiAuthorizationService;
+		_logger = logger;
 	}
 	public async Task<List<LowCostTicketDto>> GetLowCostTickets(TicketFilterDto ticketFilterDto, CancellationToken cancellationToken)
 	{
@@ -26,19 +30,25 @@ public class AmadeusApiService : IAmadeusApiService
 		var queryParameters = GetQueryParameters(ticketFilterDto);
 		var queryString = string.Join("&", queryParameters.Select(qp => $"{qp.Key}={Uri.EscapeDataString(qp.Value)}"));
 		var amadeusApiEndpoint = _amadeusApiSetting.ApiTestPath + "?" + queryString;
+		var responseContent = "";
 		try
 		{
 			var response = await _httpClient.GetAsync(amadeusApiEndpoint, cancellationToken);
-			string responseContent = await response.Content.ReadAsStringAsync();
+			_logger.LogDebug("Response from amadeus api: {@response}", response);
+			responseContent = await response.Content.ReadAsStringAsync();
 			var amadeusApiResponse = JsonSerializer.Deserialize<AmadeusApiResponse>(responseContent);
-			if (amadeusApiResponse == null || amadeusApiResponse.FlightOffers == null)
-				return lowCostTickets;
-			lowCostTickets = GenerateLowCostTickets(amadeusApiResponse.FlightOffers, ticketFilterDto);
+			lowCostTickets = GenerateLowCostTickets(amadeusApiResponse!.FlightOffers, ticketFilterDto);
 		}
 		catch (Exception e)
 		{
-			throw new HttpRequestException($"Request failed {e.Message}");
+			_logger.LogError("Fail to deserialize response from amadeus api: {@responseContent}, {@e}", responseContent, e);
+			throw;
 		}
+		finally
+		{
+			_httpClient.Dispose();
+		}
+
 		return lowCostTickets;
 	}
 

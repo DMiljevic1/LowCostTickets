@@ -15,17 +15,12 @@ public class LowCostTicketController : ControllerBase
 		_mediator = mediator;
 	}
 
-	[HttpGet]
+	[HttpGet("GetLowCostTickets")]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 	public async Task<IActionResult> GetLowCostTickets([FromQuery] TicketFilterDto ticketFilter, CancellationToken cancellationToken)
 	{
-		try
-		{
-			var lowCostTickets = await _mediator.Send(new GetLowCostTicketsCommand(ticketFilter), cancellationToken);
-			return Ok(lowCostTickets);
-		}
-		catch (Exception)
-		{
-			throw;
-		}
-	}
+        var lowCostTickets = await _mediator.Send(new GetLowCostTicketsCommand(ticketFilter), cancellationToken);
+        return Ok(lowCostTickets);
+    }
 }

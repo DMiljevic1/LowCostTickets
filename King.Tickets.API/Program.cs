@@ -14,6 +14,8 @@ builder.Services.AddControllers().
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureServices(builder.Configuration);
+builder.Services.ConfigureLogging(builder);
+builder.Services.ConfigureExceptionHandler();
 
 var app = builder.Build();
 
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 	app.ApplyMigrations();
 }
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
