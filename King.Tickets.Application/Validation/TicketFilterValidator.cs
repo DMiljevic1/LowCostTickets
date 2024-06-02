@@ -2,7 +2,7 @@
 using King.Tickets.Application.DTOs;
 using King.Tickets.Domain.Enums;
 
-namespace King.Tickets.Infrastructure.Services.Validation;
+namespace King.Tickets.Application.Validation;
 
 public class TicketFilterValidator : AbstractValidator<TicketFilterDto>
 {

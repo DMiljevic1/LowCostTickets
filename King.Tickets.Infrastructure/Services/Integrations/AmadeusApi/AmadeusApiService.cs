@@ -34,7 +34,7 @@ public class AmadeusApiService : IAmadeusApiService
 		try
 		{
 			var response = await _httpClient.GetAsync(amadeusApiEndpoint, cancellationToken);
-			_logger.LogDebug("Response from amadeus api: {@response}", response);
+			_logger.LogInformation("Response from amadeus api: {@response}", response);
 			responseContent = await response.Content.ReadAsStringAsync();
 			var amadeusApiResponse = JsonSerializer.Deserialize<AmadeusApiResponse>(responseContent);
 			lowCostTickets = GenerateLowCostTickets(amadeusApiResponse!.FlightOffers, ticketFilterDto);

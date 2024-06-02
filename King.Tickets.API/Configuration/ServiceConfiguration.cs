@@ -14,7 +14,7 @@ using King.Tickets.Infrastructure.Services;
 using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;
 using King.Tickets.Infrastructure.Services.Mapping;
 using King.Tickets.Infrastructure.Services.Mapping.Profiles;
-using King.Tickets.Infrastructure.Services.Validation;
+using King.Tickets.Application.Validation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
