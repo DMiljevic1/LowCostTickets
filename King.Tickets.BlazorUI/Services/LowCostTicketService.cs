@@ -23,14 +23,15 @@ public class LowCostTicketService : ILowCostTicketService
         try
         {
             var response = await _httpClient.GetAsync(getLowCostTicketsEndpoint);
+            response.EnsureSuccessStatusCode();
             string responseContent = await response.Content.ReadAsStringAsync();
             lowCostTickets = JsonSerializer.Deserialize<List<LowCostTicket>>(responseContent);
             if (lowCostTickets == null)
                 return new List<LowCostTicket>();
         }
-        catch (Exception e)
+        catch
         {
-            throw new HttpRequestException($"Request failed {e.Message}");
+            lowCostTickets = new List<LowCostTicket>();
         }
         return lowCostTickets;
     }
