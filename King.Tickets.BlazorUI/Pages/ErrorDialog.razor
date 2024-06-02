@@ -1,0 +1,14 @@
+﻿<MudDialog>
+    <DialogContent>
+        @contentText
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Close" Color="Color.Primary">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialogInstance { get; set; }
+    [Parameter] public string contentText { get; set; }
+    void Close() => MudDialogInstance.Close();
+}
