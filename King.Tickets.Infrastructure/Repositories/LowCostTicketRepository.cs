@@ -18,26 +18,24 @@ public class LowCostTicketRepository : ILowCostTicketRepository
 
 	public async Task AddLowCostTickets(List<LowCostTicket> lowCostTickets, CancellationToken cancellationToken)
 	{
-		using(var transaction = await _ticketDbContext.Database.BeginTransactionAsync(cancellationToken))
-		{
-			try
-			{
-                for (int i = 0; i < lowCostTickets.Count; i += BatchSize)
-                {
-                    var batch = lowCostTickets.Skip(i).Take(BatchSize).ToList();
-                    await _ticketDbContext.AddRangeAsync(batch, cancellationToken);
-                    await _ticketDbContext.SaveChangesAsync(cancellationToken);
-                }
-
-				await transaction.CommitAsync(cancellationToken);
-				_logger.LogDebug("Saved low cost tickets. LowCostTickets: {@lowCostTickets}", lowCostTickets);
+        using var transaction = await _ticketDbContext.Database.BeginTransactionAsync(cancellationToken);
+        try
+        {
+            for (int i = 0; i < lowCostTickets.Count; i += BatchSize)
+            {
+                var batch = lowCostTickets.Skip(i).Take(BatchSize).ToList();
+                await _ticketDbContext.AddRangeAsync(batch, cancellationToken);
+                await _ticketDbContext.SaveChangesAsync(cancellationToken);
             }
-			catch(Exception e)
-			{
-				_logger.LogError("Saving low cost tickets failed. Error: {@e}", e);
-				await transaction.RollbackAsync(cancellationToken);
-				throw;
-			}
-		}
-	}
+
+            await transaction.CommitAsync(cancellationToken);
+            _logger.LogDebug("Saved low cost tickets. LowCostTickets: {@lowCostTickets}", lowCostTickets);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Saving low cost tickets failed. Error: {@e}", e);
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
+    }
 }

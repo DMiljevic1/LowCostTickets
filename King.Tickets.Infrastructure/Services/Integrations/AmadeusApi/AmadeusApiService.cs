@@ -41,9 +41,14 @@ public class AmadeusApiService : IAmadeusApiService
 		}
 		catch (Exception e)
 		{
-			_logger.LogError("Deserialize json failed: {@responseContent}, {@e}", responseContent, e);
+			_logger.LogError("Fail to deserialize response from amadeus api: {@responseContent}, {@e}", responseContent, e);
 			throw;
 		}
+		finally
+		{
+			_httpClient.Dispose();
+		}
+
 		return lowCostTickets;
 	}
 

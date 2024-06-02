@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using King.Tickets.API.Infrastructure;
+using King.Tickets.API.ExceptionHandlers;
 using King.Tickets.Application.DTOs;
 using King.Tickets.Application.LowCostTickets.Commands;
 using King.Tickets.Application.Services;

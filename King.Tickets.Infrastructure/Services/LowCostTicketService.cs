@@ -56,77 +56,33 @@ public class LowCostTicketService : ILowCostTicketService
 	}
 	private async Task<TicketFilterHistory?> GetTicketFilterHistoryFromDb(TicketFilterHistory ticketFilterHistory, CancellationToken cancellationToken)
 	{
-		try
-		{
-			var ticketFilterHistoryFromDb = await _ticketFilterHistoryRepository.GetTicketFilterHistory(ticketFilterHistory, cancellationToken);
-			_logger.LogDebug("Get ticket filter history from db: {@ticketFilterHistoryFromDb}", ticketFilterHistoryFromDb);
-			return ticketFilterHistoryFromDb;
-        }
-		catch (Exception e)
-		{
-			_logger.LogError("Get ticketFilterHistory from db failed: {@e}", e);
-			throw;
-		}
+		var ticketFilterHistoryFromDb = await _ticketFilterHistoryRepository.GetTicketFilterHistory(ticketFilterHistory, cancellationToken);
+		_logger.LogInformation("Get ticket filter history from db: {@ticketFilterHistoryFromDb}", ticketFilterHistoryFromDb);
+		return ticketFilterHistoryFromDb;
 	}
 	private async Task<List<LowCostTicketDto>> FetchLowCostTicketsFromAmadeusApi(TicketFilterHistory ticketFilterHistory,TicketFilterDto ticketFilterDto, CancellationToken cancellationToken)
 	{
-		var lowCostTicketsDto = new List<LowCostTicketDto>();
-		try
-		{
-            lowCostTicketsDto = await _amadeusApiService.GetLowCostTickets(ticketFilterDto, cancellationToken);
-			_logger.LogDebug("Successfully fetched low cost tickets from amadeus api: {@lowCostTicketsDto}", lowCostTicketsDto);
-			return lowCostTicketsDto;
-        }
-		catch (Exception e)
-		{
-			_logger.LogError("An error occured while fetching low cost tickets from amadeus api: {@e}", e);
-			throw;
-		}
+        var lowCostTicketsDto = await _amadeusApiService.GetLowCostTickets(ticketFilterDto, cancellationToken);
+		_logger.LogInformation("Successfully fetched low cost tickets from amadeus api: {@lowCostTicketsDto}", lowCostTicketsDto);
+		return lowCostTicketsDto;
 	}
 
 	private async Task SaveTicketFilterHistory(TicketFilterHistory ticketFilterHistory, CancellationToken cancellationToken)
 	{
-		try
-		{
-            await _ticketFilterHistoryRepository.AddTicketFilterHistory(ticketFilterHistory, cancellationToken);
-            _logger.LogDebug("Saved ticket filter into database: {@ticketFilterHistory}", ticketFilterHistory);
-        }
-		catch (Exception e)
-		{
-            _logger.LogError("An error occured while saving ticketFilterHistory: {@ticketFilterHistory}, " + 
-				"{@e}", ticketFilterHistory, e);
-            throw;
-		}
+		await _ticketFilterHistoryRepository.AddTicketFilterHistory(ticketFilterHistory, cancellationToken);
+		_logger.LogDebug("Saved ticket filter into database: {@ticketFilterHistory}", ticketFilterHistory);
 	}
 	private async Task SaveLowCostTickets(int ticketFilterHistoryId, List<LowCostTicketDto> lowCostTicketsDto, CancellationToken cancellationToken)
 	{
-		var lowCostTickets = new List<LowCostTicket>();
-		try
-		{
-            lowCostTickets = _mapService.MapToLowCostTickets(lowCostTicketsDto);
-			_logger.LogDebug("Mapped lowCostTicketsDto to lowCostTickets.");
-            lowCostTickets.ForEach(lct => lct.TicketFilterHistoryId = ticketFilterHistoryId);
-            await _lowCostTicketRepository.AddLowCostTickets(lowCostTickets, cancellationToken);
-        }
-		catch (Exception e)
-		{
-			_logger.LogError("An error occured while mapping and saving: {@lowCostTicketsDto}, " +
-				"{@lowCostTickets}, {@e}", lowCostTickets, lowCostTicketsDto, e);
-			throw;
-		}
+        var lowCostTickets = _mapService.MapToLowCostTickets(lowCostTicketsDto);
+		_logger.LogInformation("Mapped lowCostTicketsDto to lowCostTickets.");
+        lowCostTickets.ForEach(lct => lct.TicketFilterHistoryId = ticketFilterHistoryId);
+        await _lowCostTicketRepository.AddLowCostTickets(lowCostTickets, cancellationToken);
     }
 	private List<LowCostTicketDto> FetchLowCostTicketsFromLocalDatabase(TicketFilterHistory ticketFilterHistory)
 	{
-		try
-		{
-			var lowCostTicketsDto = _mapService.MapToLowCostTicketsDto(ticketFilterHistory.LowCostTickets.ToList());
-			_logger.LogDebug("Mapped lowCostTickets to lowCostTicketsDto: {@lowCostTicketsDto}", lowCostTicketsDto);
-			return lowCostTicketsDto;
-        }
-		catch (Exception e)
-		{
-			_logger.LogError("Mapping lowCostTickets to lowCostTicketsDto failed: {@e}", e);
-			throw;
-		}
+		var lowCostTicketsDto = _mapService.MapToLowCostTicketsDto(ticketFilterHistory.LowCostTickets.ToList());
+		_logger.LogInformation($"Mapped lowCostTickets to lowCostTicketsDto: {lowCostTicketsDto}");
+		return lowCostTicketsDto;
 	}
 }
