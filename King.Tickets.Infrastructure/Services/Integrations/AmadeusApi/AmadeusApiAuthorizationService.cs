@@ -64,7 +64,7 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
         try
         {
             var response = await _httpClient.SendAsync(request);
-            _logger.LogDebug($"Response from amadeus api: {request}, {response}");
+            _logger.LogInformation($"Response from amadeus api: {request}, {response}");
             var tokenAmadeus = await response.Content.ReadFromJsonAsync<AmadeusApiAuthorization>();
             if (tokenAmadeus == null)
                 throw new Exception("Cannot fetch token from amadeus api");
