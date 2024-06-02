@@ -1,11 +1,9 @@
-﻿using Azure.Core;
-using King.Tickets.Application.Services.Integrations.AmadeusApi;
+﻿using King.Tickets.Application.Services.Integrations.AmadeusApi;
 using King.Tickets.Application.Settings;
 using King.Tickets.Infrastructure.Services.Integrations.AmadeusApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace King.Tickets.Infrastructure.Services.Integrations.AmadeusApi;

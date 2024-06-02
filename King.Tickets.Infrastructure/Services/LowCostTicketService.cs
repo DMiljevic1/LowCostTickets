@@ -59,7 +59,7 @@ public class LowCostTicketService : ILowCostTicketService
 	private async Task<List<LowCostTicketDto>> FetchLowCostTicketsFromAmadeusApi(TicketFilterHistory ticketFilterHistory,TicketFilterDto ticketFilterDto, CancellationToken cancellationToken)
 	{
         var lowCostTicketsDto = await _amadeusApiService.GetLowCostTickets(ticketFilterDto, cancellationToken);
-		_logger.LogInformation($"Successfully fetched low cost tickets from amadeus api: {lowCostTicketsDto}");
+		_logger.LogInformation($"Successfully fetched low cost tickets from amadeus api.");
 		return lowCostTicketsDto;
 	}
 
@@ -78,7 +78,7 @@ public class LowCostTicketService : ILowCostTicketService
 	private List<LowCostTicketDto> FetchLowCostTicketsFromLocalDatabase(TicketFilterHistory ticketFilterHistory)
 	{
 		var lowCostTicketsDto = _mapService.MapToLowCostTicketsDto(ticketFilterHistory.LowCostTickets.ToList());
-		_logger.LogInformation($"Mapped lowCostTickets to lowCostTicketsDto: {lowCostTicketsDto}");
+		_logger.LogInformation($"Mapped lowCostTickets to lowCostTicketsDto.");
 		return lowCostTicketsDto;
 	}
 }
