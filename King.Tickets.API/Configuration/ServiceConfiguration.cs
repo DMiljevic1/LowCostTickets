@@ -17,24 +17,30 @@ using King.Tickets.Infrastructure.Services.Mapping.Profiles;
 using King.Tickets.Application.Validation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Hangfire;
+using King.Tickets.Infrastructure.Jobs;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace King.Tickets.API.Configuration;
 
 public static class ServiceConfiguration
 {
+    private const string ConnectionString = "DefaultConnection";
     public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         ConfigureDbConnection(services, configuration);
         ConfigureApplicationServices(services, configuration);
         ConfigureRepositories(services, configuration);
+        ConfigureJobs(services, configuration);
     }
     private static void ConfigureDbConnection(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<TicketDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<TicketDbContext>(options => options.UseSqlServer(configuration.GetConnectionString(ConnectionString)));
     }
     private static void ConfigureApplicationServices(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<AmadeusApiSetting>(configuration.GetSection("AmadeusApi"));
+        services.Configure<CleanTicketFilterHistoryJobSettings>(configuration.GetSection("Jobs:CleanTicketFilterHistory"));
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetLowCostTicketsHandler).Assembly));
         services.AddMemoryCache();
         services.AddHttpClient();
@@ -49,11 +55,30 @@ public static class ServiceConfiguration
         });
         services.AddSingleton(mapperConfig.CreateMapper());
         services.AddScoped<IValidator<TicketFilterDto>, TicketFilterValidator>();
+        services.AddTransient<CleanTicketFilterHistoryJob>();
     }
     private static void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ITicketFilterHistoryRepository, TicketFilterHistoryRepository>();
         services.AddScoped<ILowCostTicketRepository, LowCostTicketRepository>();
+    }
+    private static void ConfigureJobs(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHangfire(config =>
+        {
+            config.UseSqlServerStorage(configuration.GetConnectionString(ConnectionString));
+        });
+        services.AddHangfireServer();
+    }
+    public static void ScheduleJobs(this IApplicationBuilder app)
+    {
+        app.UseHangfireDashboard();
+        var serviceProvider = app.ApplicationServices;
+        var recurringJobs = serviceProvider.GetRequiredService<IRecurringJobManager>();
+        recurringJobs.AddOrUpdate<CleanTicketFilterHistoryJob>(
+            "clean-ticket-filter-history-job",
+            job => job.Execute(),
+            Cron.Daily);
     }
     public static void ConfigureLogging(this IServiceCollection services, WebApplicationBuilder builder)
     {

@@ -27,26 +27,19 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 
 	public async Task<string> GetAccessToken()
 	{
-		if (!_memoryCache.TryGetValue(AccessToken, out string? accessToken))
-		{
+		if (!_memoryCache.TryGetValue(AccessToken, out string? accessToken) || IsTokenExpired())
 			accessToken = await GetAuthozirationToken();
-		}
-		else if(IsTokenExpired())
-		{
-            accessToken = await GetAuthozirationToken();
-        }
 
-		return accessToken;
+		return accessToken!;
 	}
 	private bool IsTokenExpired()
 	{
         if (_memoryCache.TryGetValue(AccessTokenExpireDateTime, out DateTime? accessTokenExpireDateTime))
-		{
 			return DateTime.UtcNow >= accessTokenExpireDateTime;
-		}
+
 		return true;
     }
-	private async Task<string?> GetAuthozirationToken()
+	private async Task<string> GetAuthozirationToken()
 	{
 		var request = new HttpRequestMessage(HttpMethod.Post, _amadeusApiSetting.ApiAuthorizationPath);
 		request.Content = new FormUrlEncodedContent(new[]
@@ -67,7 +60,7 @@ public class AmadeusApiAuthorizationService : IAmadeusApiAuthorizationService
 			{
                 _logger.LogInformation($"Response from amadeus api: {request}, {response}");
                 var tokenAmadeus = await response.Content.ReadFromJsonAsync<AmadeusApiAuthorization>();
-                if (tokenAmadeus == null)
+                if (tokenAmadeus == null || tokenAmadeus.Access_Token == null)
                     throw new Exception("Cannot fetch token from amadeus api");
 
                 _memoryCache.Set(AccessToken, tokenAmadeus.Access_Token);
