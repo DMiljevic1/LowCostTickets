@@ -11,5 +11,6 @@ public class TicketFilterHistory
 	public DateTime? ReturnDate { get; set; }
 	public int NumberOfPassengers { get; set; }
 	public Currency? Currency { get; set; }
-	public virtual ICollection<LowCostTicket> LowCostTickets { get; set; } = new List<LowCostTicket>();
+    public DateTime CreationDate { get; set; }
+    public virtual ICollection<LowCostTicket> LowCostTickets { get; set; } = new List<LowCostTicket>();
 }

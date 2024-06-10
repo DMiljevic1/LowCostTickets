@@ -16,6 +16,7 @@ public class TicketFilterHistoryRepository : ITicketFilterHistoryRepository
 	{
 		if(ticketFilterHistory != null)
 		{
+			ticketFilterHistory.CreationDate = DateTime.UtcNow;
 			await _ticketDbContext.TicketFilterHistory.AddAsync(ticketFilterHistory, cancellationToken);
 			await _ticketDbContext.SaveChangesAsync(cancellationToken);
 		}
