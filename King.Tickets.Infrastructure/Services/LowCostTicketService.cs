@@ -39,9 +39,9 @@ public class LowCostTicketService : ILowCostTicketService
 			await SaveLowCostTickets(ticketFilterHistory.Id, lowCostTicketsDto, cancellationToken);
 		}
 		else
-			lowCostTicketsDto = FetchLowCostTicketsFromLocalDatabase(ticketFilterHistoryFromDb);
+			lowCostTicketsDto = _mapService.MapToLowCostTicketsDto(ticketFilterHistory.LowCostTickets.ToList());
 
-		return lowCostTicketsDto;
+        return lowCostTicketsDto;
 	}
 	private TicketFilterDto AirportsToUpperCase(TicketFilterDto ticketFilterDto)
 	{
@@ -52,33 +52,21 @@ public class LowCostTicketService : ILowCostTicketService
     }
 	private async Task<TicketFilterHistory?> GetTicketFilterHistoryFromDb(TicketFilterHistory ticketFilterHistory, CancellationToken cancellationToken)
 	{
-		var ticketFilterHistoryFromDb = await _ticketFilterHistoryRepository.GetTicketFilterHistory(ticketFilterHistory, cancellationToken);
-		_logger.LogInformation($"Get ticket filter history from db: {ticketFilterHistoryFromDb}");
-		return ticketFilterHistoryFromDb;
+        return await _ticketFilterHistoryRepository.GetTicketFilterHistory(ticketFilterHistory, cancellationToken);
 	}
 	private async Task<List<LowCostTicketDto>> FetchLowCostTicketsFromAmadeusApi(TicketFilterHistory ticketFilterHistory,TicketFilterDto ticketFilterDto, CancellationToken cancellationToken)
 	{
-        var lowCostTicketsDto = await _amadeusApiService.GetLowCostTickets(ticketFilterDto, cancellationToken);
-		_logger.LogInformation($"Successfully fetched low cost tickets from amadeus api.");
-		return lowCostTicketsDto;
+        return await _amadeusApiService.GetLowCostTickets(ticketFilterDto, cancellationToken);
 	}
 
 	private async Task SaveTicketFilterHistory(TicketFilterHistory ticketFilterHistory, CancellationToken cancellationToken)
 	{
 		await _ticketFilterHistoryRepository.AddTicketFilterHistory(ticketFilterHistory, cancellationToken);
-		_logger.LogDebug($"Saved ticket filter into database: {ticketFilterHistory}");
 	}
 	private async Task SaveLowCostTickets(int ticketFilterHistoryId, List<LowCostTicketDto> lowCostTicketsDto, CancellationToken cancellationToken)
 	{
         var lowCostTickets = _mapService.MapToLowCostTickets(lowCostTicketsDto);
-		_logger.LogInformation("Mapped lowCostTicketsDto to lowCostTickets.");
         lowCostTickets.ForEach(lct => lct.TicketFilterHistoryId = ticketFilterHistoryId);
         await _lowCostTicketRepository.AddLowCostTickets(lowCostTickets, cancellationToken);
     }
-	private List<LowCostTicketDto> FetchLowCostTicketsFromLocalDatabase(TicketFilterHistory ticketFilterHistory)
-	{
-		var lowCostTicketsDto = _mapService.MapToLowCostTicketsDto(ticketFilterHistory.LowCostTickets.ToList());
-		_logger.LogInformation($"Mapped lowCostTickets to lowCostTicketsDto.");
-		return lowCostTicketsDto;
-	}
 }
